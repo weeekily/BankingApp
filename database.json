@@ -17,6 +17,11 @@
             "password": "12345",
             "balance": 0,
             "transactions": []
+        },
+        "NikolaKrstic": {
+            "password": "12345",
+            "balance": 0,
+            "transactions": []
         }
     }
 }
