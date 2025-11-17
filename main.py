@@ -1,14 +1,28 @@
-from bank_func import show_balance, deposit, withdraw, add_transaction, show_transactions
+# ============================================
+# main.py – glavna kontrola aplikacije
+# --------------------------------------------
+# - pokreće login
+# - prikazuje meni
+# - poziva funkcije iz bank_func.py
+# ============================================
+
 from auth import login
-from datetime import datetime
+from bank_func import show_balance, deposit, withdraw, show_transactions
 
+
+# ------------------------------
+# Glavni meni aplikacije
+# ------------------------------
 def main():
-    if not login():
-        return
+    # Login vraća username i podatke korisnika
+    username, user_data = login()
 
-    balance = 0
+    if username is None:
+        return  # prekida program ako login ne uspe
+
     is_running = True
 
+    # Petlja glavnog menija
     while is_running:
         print("\n===================")
         print("     PythonBank")
@@ -16,44 +30,36 @@ def main():
         print("1. Show Balance")
         print("2. Deposit")
         print("3. Withdraw")
-        print("4. Exit")
-        print("5. Transaction History")
+        print("4. Transaction History")
+        print("5. Exit")
 
         choice = input("Enter your choice (1-5): ")
 
+        # Opcije menija:
+
         if choice == '1':
-            show_balance(balance)
+            show_balance(user_data)
 
         elif choice == '2':
-            amount = deposit()
-            if amount > 0:
-                balance += amount
-                add_transaction("Deposited", amount)
-                time_only = datetime.now().strftime("%H:%M:%S")
-                print(f"You deposited ${amount:.2f} at {time_only}")
-            else:
-                print("Deposit cancelled")
+            deposit(username, user_data)
 
         elif choice == '3':
-            amount = withdraw(balance)
-            if amount > 0:
-                balance -= amount
-                add_transaction("Withdrew", amount)
-                time_only = datetime.now().strftime("%H:%M:%S")
-                print(f"You withdrew ${amount:.2f} at {time_only}")
-            else:
-                print("Withdrawal cancelled")
+            withdraw(username, user_data)
 
         elif choice == '4':
+            show_transactions(user_data)
+
+        elif choice == '5':
             confirm = input("Are you sure you want to exit? (y/n): ").lower()
             if confirm == 'y':
                 is_running = False
 
-        elif choice == '5':
-            show_transactions()
+        else:
+            print("Invalid choice, try again.")
 
     print("Thank you! Have a nice day!")
 
 
+# Pokretanje aplikacije
 if __name__ == "__main__":
     main()

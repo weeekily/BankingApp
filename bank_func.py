@@ -1,47 +1,102 @@
+# ============================================
+# bank_func.py – funkcije za rad sa računom
+# --------------------------------------------
+# - prikaz balansa
+# - depozit i podizanje novca
+# - istorija transakcija
+# - snimanje transakcija u JSON baze
+# ============================================
+
 from datetime import datetime
+from auth import load_data, save_data
 
-transactions = []
 
-def show_balance(balance):
-    print(f"Your balance is ${balance:.2f}")
+# ------------------------------
+# Prikazuje trenutni balans korisnika
+# ------------------------------
+def show_balance(user_data):
+    print(f"\nYour balance is ${user_data['balance']:.2f}\n")
 
-def deposit():
+
+# ------------------------------
+# Deposit – dodaje novac na račun
+# i snima transakciju u JSON bazu
+# ------------------------------
+def deposit(username, user_data):
     try:
         amount = float(input("Enter amount to deposit: "))
-        if amount < 0:
+
+        if amount <= 0:
             print("Please enter a positive amount")
-            return 0
-        else:
-            return amount
+            return
+
+        # Ažuriranje balansa u memoriji
+        user_data["balance"] += amount
+
+        # Dodavanje transakcije
+        full_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        user_data["transactions"].append(
+            f"[{full_time}] Deposit: ${amount:.2f}"
+        )
+
+        # Snimanje izmena u JSON bazu
+        data = load_data()
+        data["users"][username] = user_data
+        save_data(data)
+
+        print(f"${amount:.2f} deposited successfully!")
+
     except ValueError:
         print("Invalid input! Please enter a number.")
-        return 0
 
-def withdraw(balance):
+
+# ------------------------------
+# Withdraw – skida novac sa računa
+# i snima transakciju u JSON bazu
+# ------------------------------
+def withdraw(username, user_data):
     try:
         amount = float(input("Enter amount to withdraw: "))
-        if amount > balance:
-            print("Insufficient funds")
-            return 0
-        elif amount < 0:
+
+        # Provere validnosti
+        if amount <= 0:
             print("Please enter a positive amount")
-            return 0
-        else:
-            return amount
+            return
+
+        if amount > user_data["balance"]:
+            print("Insufficient funds")
+            return
+
+        # Ažuriranje balansa
+        user_data["balance"] -= amount
+
+        # Snimanje transakcije
+        full_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        user_data["transactions"].append(
+            f"[{full_time}] Withdraw: ${amount:.2f}"
+        )
+
+        # Čuvanje u JSON
+        data = load_data()
+        data["users"][username] = user_data
+        save_data(data)
+
+        print(f"${amount:.2f} withdrawn successfully!")
+
     except ValueError:
         print("Invalid input! Please enter a number.")
-        return 0
 
-def add_transaction(transaction_type, amount):
-    """Dodaje transakciju u listu sa datumom i vremenom."""
-    full_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    transactions.append(f"[{full_time}] {transaction_type}: ${amount:.2f}")
 
-def show_transactions():
-    """Prikazuje sve transakcije."""
+# ------------------------------
+# Prikazuje istoriju transakcija korisnika
+# ------------------------------
+def show_transactions(user_data):
     print("\n===== Transaction History =====")
-    if transactions:
-        for t in transactions:
+
+    if user_data["transactions"]:
+        for t in user_data["transactions"]:
             print("-", t)
     else:
         print("No transactions yet.")
+
+    print("==============================\n")
