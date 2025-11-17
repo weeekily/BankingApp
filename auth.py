@@ -84,3 +84,30 @@ def login():
 
     print(f"\n✅ Welcome, {username}! Login successful.\n")
     return username, data["users"][username]
+
+def login_web(username, password):
+    data = load_data()
+
+    # Username validacija
+    if not re.match(r'^[A-Za-z0-9]{1,15}$', username):
+        return None, None
+
+    # Password validacija
+    if len(password) == 0 or len(password) > 15:
+        return None, None
+
+    # Ako user NE POSTOJI → napravi ga
+    if username not in data["users"]:
+        data["users"][username] = {
+            "password": password,
+            "balance": 0,
+            "transactions": []
+        }
+        save_data(data)
+        return username, data["users"][username]
+
+    # User postoji → proveri password
+    if data["users"][username]["password"] != password:
+        return None, None
+
+    return username, data["users"][username]
