@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction History</title>
+    <style>
+        body {
+        background:
+            linear-gradient(rgba(13, 27, 42, 0.85), rgba(13, 27, 42, 0.85)),
+            url('/static/img/snake.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        font-family: Arial;
+        text-align: center;
+        padding-top: 80px;
+    }
+
+    .box {
+        background: rgba(27, 38, 59, 0.9);
+        padding: 30px;
+        width: 400px;
+        margin: auto;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        li {
+            background: #415a77;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 18px;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #89cff0;
+            font-size: 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>Transaction History</h1>
+
+        {% if transactions %}
+            <ul>
+                {% for t in transactions %}
+                    <li>{{ t }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No transactions yet.</p>
+        {% endif %}
+
+        <a href="/dashboard">⬅ Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PythonBank Login</title>
+    <title>Withdraw Money</title>
     <style>
         body {
         background:
-                linear-gradient(rgba(13, 27, 42, 0.85), rgba(13, 27, 42, 0.85)),
+            linear-gradient(rgba(13, 27, 42, 0.85), rgba(13, 27, 42, 0.85)),
             url('/static/img/snake.jpg');
         background-size: cover;
         background-position: center;
@@ -24,59 +24,55 @@
         border-radius: 12px;
         box-shadow: 0 0 20px rgba(0,0,0,0.4);
     }
-        h1 {
-            margin-bottom: 25px;
-            font-size: 32px;
-        }
         input {
+            padding: 12px;
             width: 80%;
-            padding: 14px;
-            margin-top: 10px;
             border-radius: 8px;
             border: none;
+            margin-top: 10px;
             font-size: 18px;
-            background: #415a77;
-            color: white;
-        }
-        input::placeholder {
-            color: #cdd8e4;
         }
         button {
             margin-top: 20px;
-            padding: 14px 30px;
-            background: #778da9;
-            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            background: #415a77;
             color: white;
-            font-size: 20px;
+            border: none;
             border-radius: 8px;
             cursor: pointer;
         }
         button:hover {
-            background: #a8b7c9;
+            background: #778da9;
         }
-        .error {
-            color: #ff6b6b;
-            margin-top: 15px;
-            font-size: 18px;
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #89cff0;
+            font-size: 20px;
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
-
     <div class="box">
-        <h1>PythonBank Login</h1>
+        <h1>Withdraw Money</h1>
 
         {% if error %}
-            <p class="error">{{ error }}</p>
+            <p style="color: #ff6b6b; font-size: 18px;">{{ error }}</p>
+        {% endif %}
+
+        {% if success %}
+            <p style="color: #4caf50; font-size: 18px;">{{ success }}</p>
         {% endif %}
 
         <form method="POST">
-            <input type="text" name="username" placeholder="Enter username" autocomplete="off">
-            <input type="password" name="password" placeholder="Enter password">
-            <button type="submit">Login</button>
+            <input type="text" name="amount" placeholder="Enter amount">
+            <button type="submit">Withdraw</button>
         </form>
-    </div>
 
+        <a href="/dashboard">⬅ Back to Dashboard</a>
+    </div>
 </body>
 </html>

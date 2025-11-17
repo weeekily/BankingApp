@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PythonBank Dashboard</title>
+    <style>
+        body {
+        background:
+            linear-gradient(rgba(13, 27, 42, 0.85), rgba(13, 27, 42, 0.85)),
+            url('/static/img/snake.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        font-family: Arial;
+        text-align: center;
+        padding-top: 80px;
+    }
+
+    .box {
+        background: rgba(27, 38, 59, 0.9);
+        padding: 30px;
+        width: 400px;
+        margin: auto;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+        a.button {
+            display: block;
+            background: #415a77;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        a.button:hover {
+            background: #778da9;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h1>Welcome {{ username }} 👋</h1>
+
+    <a href="/balance" class="button">Show Balance</a>
+    <a href="/deposit" class="button">Deposit</a>
+    <a href="/withdraw" class="button">Withdraw</a>
+    <a href="/transactions" class="button">Transaction History</a>
+    <a href="/logout" class="button">Logout</a>
+</div>
+
+</body>
+</html>
